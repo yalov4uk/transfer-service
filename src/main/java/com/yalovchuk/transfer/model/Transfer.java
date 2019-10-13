@@ -13,4 +13,5 @@ public class Transfer {
     private int value;
     private int fromAccountId;
     private int toAccountId;
+    private Status status;
 }

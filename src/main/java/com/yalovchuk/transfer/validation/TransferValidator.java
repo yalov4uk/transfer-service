@@ -17,6 +17,6 @@ public class TransferValidator {
         if (transfer.getValue() < 0) {
             return false;
         }
-        return true;
+        return transfer.getStatus() == null;
     }
 }

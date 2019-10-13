@@ -3,6 +3,7 @@ package com.yalovchuk.transfer.controller
 import com.google.gson.Gson
 import com.yalovchuk.transfer.Application
 import com.yalovchuk.transfer.config.TransferRoute
+import com.yalovchuk.transfer.model.Status
 import com.yalovchuk.transfer.model.Transfer
 import spark.Spark
 import spock.lang.Shared
@@ -31,7 +32,7 @@ class TransferControllerTest extends Specification {
 
     def "should create new transfer and return id"() {
         given:
-        Transfer input = new Transfer(null, 10, 1, 2)
+        Transfer input = new Transfer(null, 10, 1, 2, null)
         String body = gson.toJson(input)
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(API + TransferRoute.getTRANSFERS()))
@@ -52,7 +53,7 @@ class TransferControllerTest extends Specification {
 
     def "should not path validation if id is not null"() {
         given:
-        Transfer input = new Transfer(1, 10, 1, 2)
+        Transfer input = new Transfer(1, 10, 1, 2, null)
         String body = gson.toJson(input)
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(API + TransferRoute.getTRANSFERS()))
@@ -68,7 +69,7 @@ class TransferControllerTest extends Specification {
 
     def "should not path validation if value is negative"() {
         given:
-        Transfer input = new Transfer(null, -10, 1, 2)
+        Transfer input = new Transfer(null, -10, 1, 2, null)
         String body = gson.toJson(input)
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(API + TransferRoute.getTRANSFERS()))
@@ -93,7 +94,7 @@ class TransferControllerTest extends Specification {
         HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString())
 
         then:
-        Transfer expected = new Transfer(1, 10, 1, 2)
+        Transfer expected = new Transfer(1, 10, 1, 2, Status.PENDING)
         httpResponse.statusCode() == 200
         Transfer actual = gson.fromJson(httpResponse.body(), Transfer.class)
         actual == expected

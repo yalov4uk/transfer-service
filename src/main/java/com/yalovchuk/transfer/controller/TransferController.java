@@ -10,7 +10,9 @@ import spark.Request;
 import spark.Response;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class TransferController {
 
