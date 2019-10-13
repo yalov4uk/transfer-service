@@ -11,7 +11,7 @@ class TransferServiceImplTest extends Specification {
     TransferDao transferDao = Mock()
     TransferProcessor transferProcessor = Mock()
 
-    TransferService transferService = new TransferServiceImpl(transferDao, transferProcessor)
+    def transferService = new TransferServiceImpl(transferDao, transferProcessor)
 
     def "should create transfer and trigger it's processing"() {
         given:

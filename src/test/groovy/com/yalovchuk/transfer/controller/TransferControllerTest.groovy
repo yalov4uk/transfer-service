@@ -18,7 +18,7 @@ class TransferControllerTest extends Specification {
     private static final String API = "http://localhost:4567"
 
     @Shared
-    Gson gson = new Gson()
+    def gson = new Gson()
 
     def httpClient = HttpClient.newHttpClient()
 

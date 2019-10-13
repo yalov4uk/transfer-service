@@ -4,13 +4,27 @@ import com.yalovchuk.transfer.model.Status;
 import com.yalovchuk.transfer.model.Transfer;
 
 import javax.inject.Singleton;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Singleton
 public class TransferDaoImpl implements TransferDao {
 
+    private final Map<Integer, Transfer> transfers = List.of(
+            new Transfer(1, 10, 1, 2, Status.PENDING))
+            .stream()
+            .collect(Collectors.toMap(Transfer::getId, Function.identity()));
+    private AtomicInteger counter = new AtomicInteger(1);
+
     @Override
     public Transfer create(Transfer transfer) {
-        return new Transfer(1, 10, 1, 2, Status.PENDING);
+        int id = counter.incrementAndGet();
+        transfer.setId(id);
+        transfers.put(id, transfer);
+        return transfer;
     }
 
     @Override
@@ -20,6 +34,6 @@ public class TransferDaoImpl implements TransferDao {
 
     @Override
     public Transfer get(int id) {
-        return new Transfer(1, 10, 1, 2, Status.PENDING);
+        return transfers.get(id);
     }
 }
