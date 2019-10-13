@@ -1,4 +1,4 @@
-package com.yalovchuk.transfer.dto;
+package com.yalovchuk.transfer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

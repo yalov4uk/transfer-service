@@ -1,9 +1,9 @@
-package com.yalivchuk.transfer.controller
+package com.yalovchuk.transfer.controller
 
 import com.google.gson.Gson
 import com.yalovchuk.transfer.Application
 import com.yalovchuk.transfer.config.TransferRoute
-import com.yalovchuk.transfer.dto.Transfer
+import com.yalovchuk.transfer.model.Transfer
 import spark.Spark
 import spock.lang.Shared
 import spock.lang.Specification
@@ -29,7 +29,7 @@ class TransferControllerTest extends Specification {
         Spark.stop()
     }
 
-    def "should create new transfer and return it's id"() {
+    def "should create new transfer and return id"() {
         given:
         Transfer input = new Transfer(null, 10, 1, 2)
         String body = gson.toJson(input)
@@ -48,6 +48,38 @@ class TransferControllerTest extends Specification {
         actual.getValue() == input.getValue()
         actual.getFromAccountId() == input.getFromAccountId()
         actual.getToAccountId() == input.getToAccountId()
+    }
+
+    def "should not path validation if id is not null"() {
+        given:
+        Transfer input = new Transfer(1, 10, 1, 2)
+        String body = gson.toJson(input)
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(API + TransferRoute.getTRANSFERS()))
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build()
+
+        when:
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString())
+
+        then:
+        httpResponse.statusCode() == 400
+    }
+
+    def "should not path validation if value is negative"() {
+        given:
+        Transfer input = new Transfer(null, -10, 1, 2)
+        String body = gson.toJson(input)
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(API + TransferRoute.getTRANSFERS()))
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build()
+
+        when:
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString())
+
+        then:
+        httpResponse.statusCode() == 400
     }
 
     def "should return transfer by id"() {
