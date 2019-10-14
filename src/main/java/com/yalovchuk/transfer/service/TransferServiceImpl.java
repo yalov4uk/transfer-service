@@ -1,6 +1,6 @@
 package com.yalovchuk.transfer.service;
 
-import com.yalovchuk.transfer.component.TransferProcessor;
+import com.yalovchuk.transfer.component.TransferPublisher;
 import com.yalovchuk.transfer.dao.TransferDao;
 import com.yalovchuk.transfer.model.Status;
 import com.yalovchuk.transfer.model.Transfer;
@@ -14,13 +14,13 @@ import javax.inject.Singleton;
 public class TransferServiceImpl implements TransferService {
 
     private final TransferDao transferDao;
-    private final TransferProcessor transferProcessor;
+    private final TransferPublisher transferPublisher;
 
     @Override
     public Transfer create(Transfer transfer) {
         transfer.setStatus(Status.CREATED);
         Transfer result = transferDao.create(transfer);
-        transferProcessor.process(result);
+        transferPublisher.publish(result);
         return result;
     }
 

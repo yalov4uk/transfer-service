@@ -1,6 +1,6 @@
 package com.yalovchuk.transfer.service
 
-import com.yalovchuk.transfer.component.TransferProcessor
+import com.yalovchuk.transfer.component.TransferPublisher
 import com.yalovchuk.transfer.dao.TransferDao
 import com.yalovchuk.transfer.model.Status
 import com.yalovchuk.transfer.model.Transfer
@@ -9,7 +9,7 @@ import spock.lang.Specification
 class TransferServiceImplTest extends Specification {
 
     TransferDao transferDao = Mock()
-    TransferProcessor transferProcessor = Mock()
+    TransferPublisher transferProcessor = Mock()
 
     def transferService = new TransferServiceImpl(transferDao, transferProcessor)
 
@@ -24,7 +24,7 @@ class TransferServiceImplTest extends Specification {
 
         then:
         actual == expected
-        1 * transferProcessor.process(expected)
+        1 * transferProcessor.publish(expected)
     }
 
     def "should return transfer"() {

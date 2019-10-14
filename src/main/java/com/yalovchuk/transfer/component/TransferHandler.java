@@ -2,7 +2,7 @@ package com.yalovchuk.transfer.component;
 
 import com.yalovchuk.transfer.model.Transfer;
 
-public interface TransferProcessor {
+public interface TransferHandler {
 
-    void process(Transfer transfer);
+    void handle(Transfer transfer);
 }

@@ -6,18 +6,18 @@ import spock.lang.Specification
 
 import java.util.concurrent.BlockingQueue
 
-class AsyncTransferProcessorImplTest extends Specification {
+class TransferPublisherImplTest extends Specification {
 
     BlockingQueue queue = Mock()
 
-    def transferProcessor = new AsyncTransferProcessorImpl(queue)
+    def transferProcessor = new TransferPublisherImpl(queue)
 
     def "should add transfer to a queue"() {
         given:
         Transfer input = new Transfer(1, 10, 1, 2, Status.CREATED)
 
         when:
-        transferProcessor.process(input)
+        transferProcessor.publish(input)
 
         then:
         1 * queue.put(input)

@@ -3,20 +3,23 @@ package com.yalovchuk.transfer.component;
 import com.yalovchuk.transfer.model.Transfer;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.concurrent.BlockingQueue;
 
+@Slf4j
 @Singleton
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class AsyncTransferProcessorImpl implements TransferProcessor {
+public class TransferPublisherImpl implements TransferPublisher {
 
     private final BlockingQueue<Transfer> queue;
 
     @Override
     @SneakyThrows
-    public void process(Transfer transfer) {
+    public void publish(Transfer transfer) {
+        log.debug("Sending transfer with id = {}", transfer.getId());
         queue.put(transfer);
     }
 }
