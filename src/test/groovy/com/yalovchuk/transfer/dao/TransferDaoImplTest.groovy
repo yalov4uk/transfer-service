@@ -10,8 +10,8 @@ class TransferDaoImplTest extends Specification {
 
     def "should put transfer to data store"() {
         given:
-        Transfer input = new Transfer(null, 10, 1, 2, Status.PENDING)
-        Transfer expected = new Transfer(2, 10, 1, 2, Status.PENDING)
+        Transfer input = new Transfer(null, 10, 1, 2, Status.CREATED)
+        Transfer expected = new Transfer(2, 10, 1, 2, Status.CREATED)
 
         when:
         Transfer actual = transferDao.create(input)
@@ -22,7 +22,7 @@ class TransferDaoImplTest extends Specification {
 
     def "should return transfer from data store"() {
         given:
-        Transfer expected = new Transfer(1, 10, 1, 2, Status.PENDING)
+        Transfer expected = new Transfer(1, 10, 1, 2, Status.CREATED)
 
         when:
         Transfer actual = transferDao.get(1)

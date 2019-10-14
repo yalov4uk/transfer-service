@@ -15,9 +15,9 @@ class TransferServiceImplTest extends Specification {
 
     def "should create transfer and trigger it's processing"() {
         given:
-        Transfer expected = new Transfer(1, 10, 1, 2, Status.PENDING)
+        Transfer expected = new Transfer(1, 10, 1, 2, Status.CREATED)
         Transfer input = new Transfer(null, 10, 1, 2, null)
-        transferDao.create(new Transfer(null, 10, 1, 2, Status.PENDING)) >> expected
+        transferDao.create(new Transfer(null, 10, 1, 2, Status.CREATED)) >> expected
 
         when:
         Transfer actual = transferService.create(input)
@@ -29,7 +29,7 @@ class TransferServiceImplTest extends Specification {
 
     def "should return transfer"() {
         given:
-        Transfer expected = new Transfer(1, 10, 1, 2, Status.CONFIRMED)
+        Transfer expected = new Transfer(1, 10, 1, 2, Status.APPROVED)
         transferDao.get(1) >> expected
 
         when:

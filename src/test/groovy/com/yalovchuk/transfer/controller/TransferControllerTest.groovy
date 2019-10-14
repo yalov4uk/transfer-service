@@ -94,7 +94,7 @@ class TransferControllerTest extends Specification {
         HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString())
 
         then:
-        Transfer expected = new Transfer(1, 10, 1, 2, Status.PENDING)
+        Transfer expected = new Transfer(1, 10, 1, 2, Status.CREATED)
         httpResponse.statusCode() == 200
         Transfer actual = gson.fromJson(httpResponse.body(), Transfer.class)
         actual == expected

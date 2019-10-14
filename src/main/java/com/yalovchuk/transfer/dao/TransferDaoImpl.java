@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class TransferDaoImpl implements TransferDao {
 
     private final Map<Integer, Transfer> transfers = List.of(
-            new Transfer(1, 10, 1, 2, Status.PENDING))
+            new Transfer(1, 10, 1, 2, Status.CREATED))
             .stream()
             .collect(Collectors.toMap(Transfer::getId, Function.identity()));
     private AtomicInteger counter = new AtomicInteger(1);

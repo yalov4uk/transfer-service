@@ -18,7 +18,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public Transfer create(Transfer transfer) {
-        transfer.setStatus(Status.PENDING);
+        transfer.setStatus(Status.CREATED);
         Transfer result = transferDao.create(transfer);
         transferProcessor.process(result);
         return result;
