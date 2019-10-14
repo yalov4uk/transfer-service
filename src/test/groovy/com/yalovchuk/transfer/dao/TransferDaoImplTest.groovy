@@ -30,4 +30,15 @@ class TransferDaoImplTest extends Specification {
         then:
         actual == expected
     }
+
+    def "should update existing transfer"() {
+        given:
+        Transfer expected = new Transfer(1, 10, 1, 2, Status.PROCESSING)
+
+        when:
+        Transfer actual = transferDao.update(expected)
+
+        then:
+        actual == expected
+    }
 }

@@ -1,5 +1,6 @@
 package com.yalovchuk.transfer.component;
 
+import com.google.gson.Gson;
 import com.yalovchuk.transfer.model.Transfer;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -15,14 +16,16 @@ public class TransferConsumer implements Runnable {
     @Setter
     private volatile boolean active = true;
 
-    private final BlockingQueue<Transfer> queue;
+    private final BlockingQueue<String> queue;
     private final TransferHandler transferHandler;
+    private final Gson gson;
 
     @Override
     @SneakyThrows
     public void run() {
         while (active) {
-            Transfer transfer = queue.take();
+            String payload = queue.take();
+            Transfer transfer = gson.fromJson(payload, Transfer.class);
             log.debug("Thread {} receive transfer with id = {}", Thread.currentThread().getName(), transfer.getId());
             transferHandler.handle(transfer);
         }

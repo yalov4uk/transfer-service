@@ -17,6 +17,7 @@ public class TransferDaoImpl implements TransferDao {
             new Transfer(1, 10, 1, 2, Status.CREATED))
             .stream()
             .collect(Collectors.toMap(Transfer::getId, Function.identity()));
+
     private AtomicInteger counter = new AtomicInteger(1);
 
     @Override
@@ -29,6 +30,10 @@ public class TransferDaoImpl implements TransferDao {
 
     @Override
     public Transfer update(Transfer transfer) {
+        if (transfers.containsKey(transfer.getId())) {
+            transfers.put(transfer.getId(), transfer);
+            return transfer;
+        }
         return null;
     }
 
