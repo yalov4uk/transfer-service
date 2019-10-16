@@ -31,7 +31,7 @@ public class TransferHandlerImpl implements TransferHandler {
             updateTransfer(transfer, Status.PROCESSING);
             AccountDto fromAccount = accountClient.get(transfer.getFromAccountId());
             AccountDto toAccount = accountClient.get(transfer.getToAccountId());
-            if (isInsufficientBalance(fromAccount, transfer)) {
+            if (fromAccount == null || toAccount == null || isInsufficientBalance(fromAccount, transfer)) {
                 updateTransfer(transfer, Status.REJECTED);
             } else {
                 executeTransfer(transfer, fromAccount, toAccount);
@@ -50,7 +50,7 @@ public class TransferHandlerImpl implements TransferHandler {
 
     /**
      * Transfer logic.
-     * The idea is to lock both accounts sequentially in some specific order. Otherwise deadlocks will happen.
+     * The idea is to lock both accounts sequentially in some specific order. Otherwise deadlocks may happen.
      * Here was chose {@link AccountDto#getId()} field.
      *
      * @param transfer    - transfer that should be processed.
