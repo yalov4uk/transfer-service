@@ -1,6 +1,7 @@
 plugins {
-    id 'application'
+    id 'java'
     id 'groovy'
+    id "com.github.johnrengelman.shadow" version "5.1.0"
 }
 
 group = 'com.yalovchuk'
@@ -12,8 +13,6 @@ targetCompatibility = 11
 repositories {
     jcenter()
 }
-
-mainClassName = 'com.yalovchuk.transfer.impl.Main'
 
 dependencies {
     implementation group: 'com.sparkjava', name: 'spark-core', version: '2.9.1'
@@ -29,6 +28,6 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.yalovchuk.transfer.Main'
+        attributes 'Main-Class': 'com.yalovchuk.transfer.Application'
     }
 }
