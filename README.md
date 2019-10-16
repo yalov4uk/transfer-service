@@ -1,23 +1,25 @@
 # transfer-service
+RESTful API (including data model and the backing implementation) for
+money transfers between accounts.
 
 ### Quick start
 1. Build:
     * Unix 
     ```shell script
-    ./gradlew -Dorg.gradle.java.home=/path/to/java/11 build
+    ./gradlew -Dorg.gradle.java.home=/path/to/java/11/home shadowJar
     ```
     * Windows
     ```shell script
-    gradlew.bat -Dorg.gradle.java.home=/path/to/java/11 build
+    gradlew.bat -Dorg.gradle.java.home=/path/to/java/11/home shadowJar
     ```
 2. Run:
-    * Java (4567 port):
+    * Java (4567):
     ```shell script
-    path/to/java/11/bin/java -jar build/libs/transfer-service-0.0.1-SNAPSHOT-all.jar
+    path/to/java/11/home/bin/java -jar build/libs/transfer-service-0.0.1-SNAPSHOT-all.jar
     ```
-    * Docker:
+    * Docker (8080):
     ```shell script
-    docker build -t transfer-service
+    docker build -t transfer-service .
     ```
     ```shell script
     docker run -p 8080:4567 transfer-service
