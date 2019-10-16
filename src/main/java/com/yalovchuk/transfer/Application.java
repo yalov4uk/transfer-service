@@ -2,14 +2,17 @@ package com.yalovchuk.transfer;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.yalovchuk.transfer.component.TransferConsumer;
+import com.yalovchuk.transfer.config.ProducerConsumerModule;
 import com.yalovchuk.transfer.config.TransferModule;
 import com.yalovchuk.transfer.config.TransferRoute;
+import com.yalovchuk.transfer.component.TransferConsumer;
+import com.yalovchuk.transfer.config.TransferConsumerModule;
 
 public class Application {
 
     public static void main(String[] args) {
-        Injector injector = Guice.createInjector(new TransferModule());
+        Injector injector = Guice.createInjector(new TransferModule(), new TransferConsumerModule(),
+                new ProducerConsumerModule());
 
         TransferRoute transferRoute = injector.getInstance(TransferRoute.class);
         transferRoute.configure();
