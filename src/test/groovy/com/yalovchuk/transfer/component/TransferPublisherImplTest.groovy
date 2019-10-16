@@ -3,6 +3,7 @@ package com.yalovchuk.transfer.component
 import com.google.gson.Gson
 import com.yalovchuk.transfer.model.Status
 import com.yalovchuk.transfer.model.Transfer
+import com.yalovchuk.transfer.component.TransferPublisherImpl
 import spock.lang.Specification
 
 import java.util.concurrent.BlockingQueue
