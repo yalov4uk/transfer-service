@@ -19,10 +19,15 @@ public class TransferHandlerImpl implements TransferHandler {
     private final AccountClient accountClient;
     private final TransferDao transferDao;
 
+    /**
+     * Method for transfer processing.
+     * Implemented with double-checked locking.
+     *
+     * @param transfer - event that should be processed.
+     */
     @Override
     public void handle(Transfer transfer) {
         if (transfer.getStatus() == Status.CREATED) {
-            log.info("Processing transfer {}", transfer.getId());
             updateTransfer(transfer, Status.PROCESSING);
             AccountDto fromAccount = accountClient.get(transfer.getFromAccountId());
             AccountDto toAccount = accountClient.get(transfer.getToAccountId());
@@ -43,11 +48,20 @@ public class TransferHandlerImpl implements TransferHandler {
         return fromAccount.getValue() - transfer.getValue() < 0;
     }
 
-    @SuppressWarnings("all")
+    /**
+     * Transfer logic.
+     * The idea is to lock both accounts sequentially in some specific order. Otherwise deadlocks will happen.
+     * Here was chose {@link AccountDto#getId()} field.
+     *
+     * @param transfer    - transfer that should be processed.
+     * @param fromAccount - account-sender.
+     * @param toAccount   - account-receiver.
+     */
     private void executeTransfer(Transfer transfer, AccountDto fromAccount, AccountDto toAccount) {
         boolean fromAccountIdLessThanToAccountId = fromAccount.getId() < toAccount.getId();
         AccountDto firstToLock = fromAccountIdLessThanToAccountId ? fromAccount : toAccount;
         AccountDto secondToLock = fromAccountIdLessThanToAccountId ? toAccount : fromAccount;
+
         synchronized (firstToLock) {
             synchronized (secondToLock) {
                 if (isInsufficientBalance(fromAccount, transfer)) {
